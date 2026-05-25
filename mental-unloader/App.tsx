@@ -1,3 +1,3 @@
-import HomeScreen from './app';
+import RootLayout from './app/_layout';
 
-export default HomeScreen;
+export default RootLayout;

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import VoiceButton from '../components/VoiceButton';
+import { VoiceButton } from '../components/VoiceButton';
 import { classifyTranscript } from '../services/classify';
 import { transcribeAudio } from '../services/transcribe';
 import type { CalendarEvent, PackingItem, ShoppingItem, Task } from '../types';
@@ -13,6 +13,11 @@ export default function HomeScreen() {
   const [packing, setPacking] = useState<PackingItem[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const onError = useCallback((err: Error) => {
+    setError(err.message);
+    setIsProcessing(false);
+  }, []);
 
   const onRecordingComplete = useCallback(async (audioUri: string) => {
     setError(null);
@@ -60,7 +65,7 @@ export default function HomeScreen() {
       <Text style={styles.title}>MentalUnloader</Text>
       <Text style={styles.subtitle}>Hold the mic and speak. We will sort your thought for you.</Text>
 
-      <VoiceButton onRecordingComplete={onRecordingComplete} disabled={isProcessing} />
+      <VoiceButton onRecordingComplete={onRecordingComplete} onError={onError} disabled={isProcessing} />
 
       {isProcessing ? <ActivityIndicator size="large" color="#6d44f2" style={styles.loading} /> : null}
       {error ? <Text style={styles.error}>{error}</Text> : null}

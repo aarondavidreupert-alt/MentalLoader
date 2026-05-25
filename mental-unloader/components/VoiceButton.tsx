@@ -1,69 +1,23 @@
-import { Audio } from 'expo-av';
-import { useCallback, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
+import { useVoiceRecorder } from '../hooks/useVoiceRecorder';
+
 type VoiceButtonProps = {
-  onRecordingComplete: (audioUri: string) => Promise<void>;
+  onRecordingComplete: (audioUri: string) => void;
+  onError: (error: Error) => void;
   disabled?: boolean;
 };
 
-export default function VoiceButton({ onRecordingComplete, disabled = false }: VoiceButtonProps) {
-  const recordingRef = useRef<Audio.Recording | null>(null);
-  const [isRecording, setIsRecording] = useState(false);
-
-  const startRecording = useCallback(async () => {
-    if (disabled || isRecording) {
-      return;
-    }
-
-    const permission = await Audio.requestPermissionsAsync();
-    if (!permission.granted) {
-      throw new Error('Microphone permission is required to record audio.');
-    }
-
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: true,
-      playsInSilentModeIOS: true,
-    });
-
-    const recording = new Audio.Recording();
-    await recording.prepareToRecordAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
-    await recording.startAsync();
-
-    recordingRef.current = recording;
-    setIsRecording(true);
-  }, [disabled, isRecording]);
-
-  const stopRecording = useCallback(async () => {
-    const recording = recordingRef.current;
-
-    if (!recording) {
-      return;
-    }
-
-    await recording.stopAndUnloadAsync();
-    const uri = recording.getURI();
-
-    recordingRef.current = null;
-    setIsRecording(false);
-
-    if (uri) {
-      await onRecordingComplete(uri);
-    }
-  }, [onRecordingComplete]);
+export function VoiceButton({ onRecordingComplete, onError, disabled = false }: VoiceButtonProps) {
+  const { isRecording, start, stop } = useVoiceRecorder({
+    onComplete: onRecordingComplete,
+    onError,
+  });
 
   return (
     <Pressable
-      onPressIn={() => {
-        startRecording().catch(() => {
-          setIsRecording(false);
-        });
-      }}
-      onPressOut={() => {
-        stopRecording().catch(() => {
-          setIsRecording(false);
-        });
-      }}
+      onPressIn={() => { void start(); }}
+      onPressOut={() => { void stop(); }}
       style={[styles.button, isRecording ? styles.recording : null, disabled ? styles.disabled : null]}
       disabled={disabled}
     >

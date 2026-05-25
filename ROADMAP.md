@@ -2,10 +2,10 @@
 
 ## Phase 1 — MVP (current)
 
-- [ ] Voice recording (hold to record)
-- [ ] Whisper transcription
-- [ ] Claude classification (SHOPPING | TASK | CALENDAR | PACKING)
-- [ ] Display in correct list
+- [x] Voice recording (hold to record)
+- [x] Whisper transcription
+- [x] Claude classification (SHOPPING | TASK | CALENDAR | PACKING)
+- [x] Display in correct list
 
 ## Phase 2 — Smart Features
 
