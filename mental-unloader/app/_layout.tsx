@@ -1,11 +1,10 @@
+import { Slot } from 'expo-router';
 import { SafeAreaView, StyleSheet } from 'react-native';
-
-import HomeScreen from './index';
 
 export default function RootLayout() {
   return (
     <SafeAreaView style={styles.container}>
-      <HomeScreen />
+      <Slot />
     </SafeAreaView>
   );
 }
