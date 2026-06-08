@@ -4,31 +4,16 @@
   "main": "expo-router/entry",
   "dependencies": {
     "expo": "~54.0.0",
-<<<<<<< Updated upstream
-    "expo-av": "~15.0.0",
-    "expo-constants": "~17.0.0",
-    "expo-router": "~6.0.0",
-    "expo-status-bar": "~2.0.0",
-    "react": "18.3.1",
-    "react-native": "0.82.0"
-  },
-  "devDependencies": {
-    "@types/react": "~18.3.0",
-    "typescript": "~5.3.0"
-=======
     "expo-av": "~16.0.0",
     "expo-constants": "~18.0.13",
     "expo-router": "~6.0.24",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",
-    "react-native": "0.81.5",
-    "start": "^5.1.0",
-    "typescript": "~5.9.2"
+    "react-native": "0.81.5"
   },
   "devDependencies": {
     "@types/react": "~19.1.10",
     "typescript": "~5.9.2"
->>>>>>> Stashed changes
   },
   "scripts": {
     "start": "expo start",
